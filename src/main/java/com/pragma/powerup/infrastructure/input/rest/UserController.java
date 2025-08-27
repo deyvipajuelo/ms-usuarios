@@ -30,4 +30,10 @@ public class UserController {
         userHandler.saveUser(userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @PostMapping("/clientes")
+    public ResponseEntity<Void> saveCustomer(@RequestBody @Valid UserRequest userRequest) {
+        userHandler.saveUser(userRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }

@@ -96,4 +96,41 @@ class UserControllerTest {
                         .content(invalidJson))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void saveCustomer_ReturnsCreated_WhenRequestIsValid() throws Exception {
+        String json = """
+            {
+                "nombre": "Carlos",
+                "apellido": "Ramírez",
+                "documentoDeIdentidad": "11223344",
+                "celular": "3009876543",
+                "correo": "carlos@example.com",
+                "clave": "clave123",
+                "rolId": 3
+            }
+        """;
+
+        mockMvc.perform(post("/user/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isCreated());
+
+        verify(userHandler).saveUser(any(UserRequest.class));
+    }
+
+    @Test
+    void saveCustomer_ReturnsBadRequest_WhenInvalidRequest() throws Exception {
+        String invalidJson = """
+            {
+                "nombre": "",
+                "apellido": "Ramírez"
+            }
+        """;
+
+        mockMvc.perform(post("/user/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidJson))
+                .andExpect(status().isBadRequest());
+    }
 }
