@@ -7,9 +7,12 @@ import com.pragma.powerup.application.mapper.UserRequestMapper;
 import com.pragma.powerup.domain.api.IRoleServicePort;
 import com.pragma.powerup.domain.api.IUserServicePort;
 import com.pragma.powerup.domain.model.User;
+import com.pragma.powerup.infrastructure.exception.UserUnderAgeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 @Service
 @Transactional
@@ -24,6 +27,9 @@ public class UserHandler implements IUserHandler {
     @Override
     public void saveOwner(OwnerRequest ownerRequest) {
         User user = ownerRequestMapper.toUser(ownerRequest);
+        if (user.getFechaNacimiento().plusYears(18).isAfter(LocalDate.now())) {
+            throw new UserUnderAgeException();
+        }
         user.setRole(roleServicePort.getRoleByName("PROPIETARIO"));
         userServicePort.saveUser(user);
     }
