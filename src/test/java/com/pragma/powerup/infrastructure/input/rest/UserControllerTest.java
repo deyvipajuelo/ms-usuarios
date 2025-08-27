@@ -1,6 +1,7 @@
 package com.pragma.powerup.infrastructure.input.rest;
 
 import com.pragma.powerup.application.dto.OwnerRequest;
+import com.pragma.powerup.application.dto.UserRequest;
 import com.pragma.powerup.application.handler.IUserHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,43 @@ class UserControllerTest {
         """;
 
         mockMvc.perform(post("/user/propietarios")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void saveEmployee_ReturnsCreated_WhenRequestIsValid() throws Exception {
+        String json = """
+            {
+                "nombre": "Ana",
+                "apellido": "Gómez",
+                "documentoDeIdentidad": "87654321",
+                "celular": "+573001234567",
+                "correo": "ana@example.com",
+                "clave": "password123",
+                "rolId": 2
+            }
+        """;
+
+        mockMvc.perform(post("/user/empleados")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isCreated());
+
+        verify(userHandler).saveUser(any(UserRequest.class));
+    }
+
+    @Test
+    void saveEmployee_ReturnsBadRequest_WhenInvalidRequest() throws Exception {
+        String invalidJson = """
+            {
+                "nombre": "",
+                "apellido": "Gómez"
+            }
+        """;
+
+        mockMvc.perform(post("/user/empleados")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidJson))
                 .andExpect(status().isBadRequest());

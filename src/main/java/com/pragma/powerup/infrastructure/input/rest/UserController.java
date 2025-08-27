@@ -1,6 +1,7 @@
 package com.pragma.powerup.infrastructure.input.rest;
 
 import com.pragma.powerup.application.dto.OwnerRequest;
+import com.pragma.powerup.application.dto.UserRequest;
 import com.pragma.powerup.application.handler.IUserHandler;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,12 @@ public class UserController {
     @PostMapping("/propietarios")
     public ResponseEntity<Void> saveOwner(@RequestBody @Valid OwnerRequest ownerRequest) {
         userHandler.saveOwner(ownerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/empleados")
+    public ResponseEntity<Void> saveEmployee(@RequestBody @Valid UserRequest userRequest) {
+        userHandler.saveUser(userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
