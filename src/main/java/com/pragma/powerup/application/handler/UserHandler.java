@@ -21,7 +21,6 @@ public class UserHandler implements IUserHandler {
     private final OwnerRequestMapper ownerRequestMapper;
     private final IRoleServicePort roleServicePort;
 
-
     @Override
     public void saveOwner(OwnerRequest ownerRequest) {
         User user = ownerRequestMapper.toUser(ownerRequest);
@@ -29,9 +28,9 @@ public class UserHandler implements IUserHandler {
         userServicePort.saveUser(user);
     }
 
-    /*@Override
+    @Override
     public void saveUser(UserRequest userRequest) {
         User user = userRequestMapper.toUser(userRequest);
         userServicePort.saveUser(user);
-    }*/
+    }
 }

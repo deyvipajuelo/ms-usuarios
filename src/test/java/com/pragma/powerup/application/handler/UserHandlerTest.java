@@ -1,6 +1,7 @@
 package com.pragma.powerup.application.handler;
 
 import com.pragma.powerup.application.dto.OwnerRequest;
+import com.pragma.powerup.application.dto.UserRequest;
 import com.pragma.powerup.application.mapper.OwnerRequestMapper;
 import com.pragma.powerup.application.mapper.UserRequestMapper;
 import com.pragma.powerup.domain.api.IRoleServicePort;
@@ -48,6 +49,22 @@ class UserHandlerTest {
         // Assert
         verify(ownerRequestMapper, times(1)).toUser(ownerRequest);
         verify(roleServicePort, times(1)).getRoleByName("PROPIETARIO");
+        verify(userServicePort, times(1)).saveUser(user);
+    }
+
+    @Test
+    void saveUser_ShouldMapAndSaveUser() {
+        // Arrange
+        UserRequest userRequest = mock(UserRequest.class);
+        User user = new User();
+
+        when(userRequestMapper.toUser(userRequest)).thenReturn(user);
+
+        // Act
+        userHandler.saveUser(userRequest);
+
+        // Assert
+        verify(userRequestMapper, times(1)).toUser(userRequest);
         verify(userServicePort, times(1)).saveUser(user);
     }
 
