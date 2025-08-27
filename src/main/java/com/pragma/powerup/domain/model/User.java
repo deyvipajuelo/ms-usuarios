@@ -12,6 +12,7 @@ public class User {
     private String correo;
     private String clave;
     private Role role;
+    private Long idRestaurant;
 
     public User() {
     }
@@ -99,5 +100,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Long getIdRestaurant() {
+        return idRestaurant;
+    }
+
+    public void setIdRestaurant(Long idRestaurant) {
+        this.idRestaurant = idRestaurant;
     }
 }
