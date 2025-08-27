@@ -12,6 +12,10 @@ public record OwnerRequest(
         String apellido,
 
         @NotBlank(message = "El documento de identidad es obligatorio")
+        @Pattern(
+                regexp = "^[0-9]+$",
+                message = "El documento de identidad solo puede contener números"
+        )
         String documentoDeIdentidad,
 
         @NotBlank(message = "El celular es obligatorio")
